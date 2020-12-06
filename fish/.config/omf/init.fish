@@ -17,5 +17,6 @@ set -xg theme_newline_cursor       no
 # Shortcuts
 abbr l="ls -Alh"
 abbr md="mkdir -p"
+abbr rm="rm -rf"
 abbr yt="youtube-dl"
 alias gitroot="cd ./(git rev-parse --show-cdup)"
