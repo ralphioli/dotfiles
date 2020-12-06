@@ -12,5 +12,8 @@ set ai           " Set auto-indentation
 set relativenumber " Use relative line numbers
 set number         " Show current line number
 
+" Custom syntax highlighting rules
+autocmd BufNewFile,BufRead *.njk set syntax=html
+
 " vim-latex-live-preview config
 let g:livepreview_previewer = 'xreader'

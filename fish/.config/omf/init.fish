@@ -13,3 +13,9 @@ set -xg theme_display_cmd_duration no
 set -xg theme_display_user         no
 set -xg theme_display_hostname     ssh
 set -xg theme_newline_cursor       no
+
+# Shortcuts
+abbr l="ls -Alh"
+abbr md="mkdir -p"
+abbr yt="youtube-dl"
+alias gitroot="cd ./(git rev-parse --show-cdup)"
