@@ -9,15 +9,23 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Set leader
-let mapleader = ","
-let maplocalleader = "."
+" Custom key bindings
+let mapleader = "\\"
+let maplocalleader = ","
+nnoremap <space> za      " Use space bar to fold
 
 " Load plugins
 call plug#begin('~/.vim/plugged')
 Plug 'lervag/vimtex'
 Plug 'tomtom/tcomment_vim'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
+
+" Python
+au BufNewFile,BufRead *.py
+  \ set foldmethod=indent |
+  \ set foldlevel=99
 
 " Use correct syntax highlighting
 autocmd BufNewFile,BufRead *.njk set syntax=html
