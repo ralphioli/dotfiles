@@ -1,7 +1,15 @@
 global !p
-# Convert text to label-appropriate format
+def math():
+	return vim.eval("vimtex#syntax#in_mathzone()") != "0"
+endglobal
+
+
+# Snippet to make sections etc.
+snippet "h([0-5])" "Heading" rbA
+`!p
 from unidecode import unidecode
 
+# Convert text to label-appropriate format
 def toLabel(s):
 	def convert(w):
 		res = ""
@@ -12,35 +20,20 @@ def toLabel(s):
 		
 	return "-".join(map(convert, s.split()))
 
-def math():
-	return vim.eval("vimtex#syntax#in_mathzone()") != "0"
-endglobal
+levels = ["chapter", "section", "subsection", "subsubsection", "paragraph", "subparagraph"]
+labels = ["ch",      "sec",     "ssec",       "sssec",         "par",       "subpar"]
+n = int(match.group(1)) 
+`\\`!p snip.rv=levels[n]`{$1}
+\label{`!p snip.rv=labels[n]`:${2:`!p snip.rv = toLabel(t[1])`}}
+
+$0
+endsnippet
 
 
+# Non-math stuff
 
 snippet pkg "usepackage" b
 \usepackage{$1}$0
-endsnippet
-
-snippet sec "Section" b
-\section{$1}
-\label{sec:${2:`!p snip.rv = toLabel(t[1])`}}
-
-$0
-endsnippet
-
-snippet ssec "Subsection" b
-\subsection{$1}
-\label{ssec:${2:`!p snip.rv = toLabel(t[1])`}}
-
-$0
-endsnippet
-
-snippet sssec "Subsubsection" b
-\subsubsection{$1}
-\label{sssec:${2:`!p snip.rv = toLabel(t[1])`}}
-
-$0
 endsnippet
 
 snippet env "Environment" b
@@ -66,6 +59,9 @@ snippet >> "textrightarrow" Aw
 \textrightarrow{} $0
 endsnippet
 
+
+# Code listing
+
 snippet lsi "Inline code listing" w
 {\lstinline!$1!}`!p
 if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
@@ -82,6 +78,7 @@ $1
 $0
 endsnippet
 
+
 # Math snippets
 
 context "not math()"
@@ -95,7 +92,7 @@ else:
 endsnippet
 
 context "not math()"
-snippet dm "Display math" bA
+snippet dm "Display math" Aw
 \[
 $1
 \]
