@@ -1,0 +1,150 @@
+global !p
+# Convert text to label-appropriate format
+from unidecode import unidecode
+
+def toLabel(s):
+	def convert(w):
+		res = ""
+		for c in unidecode(w).lower():
+			if c.isalnum():
+				res += c
+		return res
+		
+	return "-".join(map(convert, s.split()))
+
+def math():
+	return vim.eval("vimtex#syntax#in_mathzone()") != "0"
+endglobal
+
+
+
+snippet pkg "usepackage" b
+\usepackage{$1}$0
+endsnippet
+
+snippet sec "Section" b
+\section{$1}
+\label{sec:${2:`!p snip.rv = toLabel(t[1])`}}
+
+$0
+endsnippet
+
+snippet ssec "Subsection" b
+\subsection{$1}
+\label{ssec:${2:`!p snip.rv = toLabel(t[1])`}}
+
+$0
+endsnippet
+
+snippet sssec "Subsubsection" b
+\subsubsection{$1}
+\label{sssec:${2:`!p snip.rv = toLabel(t[1])`}}
+
+$0
+endsnippet
+
+snippet env "Environment" b
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+snippet item "Itemize" b
+\begin{itemize}
+	\item $0
+\end{itemize}
+endsnippet
+
+snippet enum "Enumerate" b
+\begin{enumerate}
+	\item $0
+\end{enumerate}
+endsnippet
+
+context "not math()"
+snippet >> "textrightarrow" Aw
+\textrightarrow{} $0
+endsnippet
+
+snippet lsi "Inline code listing" w
+{\lstinline!$1!}`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+  snip.rv = ' '
+else:
+  snip.rv = ''
+`$2
+endsnippet
+
+snippet lst "Code listing" b
+\begin{lstlisting}
+$1
+\end{lstlisting}
+$0
+endsnippet
+
+# Math snippets
+
+context "not math()"
+snippet mm "Inline math" Aw
+$${1}$`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+  snip.rv = ' '
+else:
+  snip.rv = ''
+`$2
+endsnippet
+
+context "not math()"
+snippet dm "Display math" bA
+\[
+$1
+\]
+$0
+endsnippet
+
+
+context "math()"
+snippet __ "subscript" iA
+_{$1}$0
+endsnippet
+
+context "math()"
+snippet ^^ "superscript" iA
+_{$1}$0
+endsnippet
+
+context "math()"
+snippet || "mid" iA
+\mid $0
+endsnippet
+
+context "math()"
+snippet >> "rightarrow" iA
+\rightarrow $0
+endsnippet
+
+context "math()"
+snippet << "leftarrow" iA
+\leftarrow $0
+endsnippet
+
+context "math()"
+snippet <> "leftrightarrow" iA
+\leftrightarrow $0
+endsnippet
+
+context "math()"
+snippet /= "not equal" iA
+\neq $0
+endsnippet
+
+context "math()"
+snippet >= "greater or equal" iA
+\geq $0
+endsnippet
+
+context "math()"
+snippet <= "less or equal" iA
+\leq $0
+endsnippet
+

@@ -1,0 +1,28 @@
+snippet mod "Module" b
+module ${1:Main} where
+	$0
+endsnippet
+
+snippet "([a-zA-Z0-9]*'*)::" "Function/value definition" rA
+`!p snip.rv = match.group(1)` :: ${1:X}
+`!p snip.rv = match.group(1)` $2`!p snip.rv=' ' if t[2] else ''`= ${3:undefined}
+endsnippet
+
+snippet "cls " "Type class definition" rbA
+class ${1:Name} where
+	$0
+endsnippet
+
+snippet "ins " "Type class instance definition" rbA
+instance ${1:Class} ${2:Type} where
+	$0
+endsnippet
+
+snippet \\ "Lambda" i
+\\${1:x} -> ${2:x}
+endsnippet
+
+snippet main "Main function" b
+main :: IO ()
+main = $0
+endsnippet

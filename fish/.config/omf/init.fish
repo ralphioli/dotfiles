@@ -16,10 +16,18 @@ set -xg theme_newline_cursor       no
 
 # Shortcuts
 abbr l="ls -Alh"
-abbr md="mkdir -p"
+abbr mk="mkdir -p"
 abbr rm="rm -rf"
+
 abbr du="du -h"
 abbr df="df -h"
 abbr free="free -h"
+
 abbr yt="youtube-dl"
+abbr md="grip -b"
+
+abbr v="vim"
+abbr vimrc="vim ~/.vimrc"
+
+alias :q="exit"
 alias gitroot="cd ./(git rev-parse --show-cdup)"
