@@ -1,0 +1,72 @@
+global !p
+def comma(s):
+	if not s or s[0] == ',':
+		return ""
+	return ", "
+endglobal
+
+snippet "def " "Method definition" rbA
+def $1($2):
+	${3:pass}
+
+$0
+endsnippet
+
+priority 10
+snippet "idef " "Instance method definition" rbA
+def $1(self`!p snip.rv = comma(t[2])`$2):
+	${3:pass}
+
+$0
+endsnippet
+
+priority 10
+snippet "cdef " "Class method definition" rbA
+@classmethod
+def $1(cls`!p snip.rv = comma(t[2])`$2):
+	${3:pass}
+
+$0
+endsnippet
+
+priority 10
+snippet "sdef " "Static method definition" rbA
+@staticmethod
+def $1($2):
+	${3:pass}
+
+$0
+endsnippet
+
+snippet "(class|cls) " "Class" rbA
+class $1($2):
+	def __init__(self`!p snip.rv = comma(t[3])`$3): `!p 
+snip >> 2
+
+args = [i for i in map(lambda x: x.strip(), t[3].split(',')) if i]
+parents = [i for i in map(lambda x: x.strip(), t[2].split(',')) if i]
+
+if parents:
+	snip += "# Initialize superclass"
+	for parent in parents:
+		snip += f"{parent}.__init__(self)"
+
+if parents and args:
+	snip += "" # Extra newline
+
+if args:
+	snip += "# Assign arguments to variables"
+	for arg in args:
+		snip += f"self._{arg} = {arg}"
+
+if not (parents or args):
+	snip += "pass"
+`
+
+	$0
+endsnippet
+
+snippet main "Main function" b
+if __name__ == "__main__":
+	${1:pass}
+endsnippet

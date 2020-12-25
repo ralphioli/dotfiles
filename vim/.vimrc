@@ -18,6 +18,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'SirVer/ultisnips'
 Plug 'preservim/nerdtree'
 Plug 'joshdick/onedark.vim'
+Plug 'Raimondi/delimitMate'
 call plug#end()
 
 " Theme settings
@@ -27,12 +28,17 @@ colorscheme onedark
 " Custom key bindings
   let mapleader = "\\"
   let maplocalleader = ","
+  nnoremap <C-n> :NERDTreeToggle<CR>
   " Use space bar to fold
   nnoremap <space> za
   " Replace using gs
   nnoremap gs :%s/
   xnoremap gs :s/
-  nnoremap <C-n> :NERDTreeToggle<CR>
+  " Quick pane switching
+  nnoremap <C-h> <C-w>h
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-l> <C-w>l
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
