@@ -7,7 +7,7 @@ set -xg fish_color_autosuggestion brblack
 set -xg fish_color_comment        brblack
 
 # Custom bobthefish theme settings
-set -xg theme_powerline_fonts      no
+# set -xg theme_powerline_fonts      no
 set -xg theme_display_date         no
 set -xg theme_display_cmd_duration no
 set -xg theme_display_user         no
@@ -27,7 +27,6 @@ abbr yt="youtube-dl"
 abbr md="grip -b"
 
 abbr v="vim"
-abbr vimrc="vim ~/.vimrc"
+abbr t="tmux"
 
-alias :q="exit"
 alias gitroot="cd ./(git rev-parse --show-cdup)"

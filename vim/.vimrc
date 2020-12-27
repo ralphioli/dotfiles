@@ -22,23 +22,29 @@ Plug 'Raimondi/delimitMate'
 call plug#end()
 
 " Theme settings
-set termguicolors
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 colorscheme onedark
 
-" Custom key bindings
-  let mapleader = "\\"
-  let maplocalleader = ","
-  nnoremap <C-n> :NERDTreeToggle<CR>
-  " Use space bar to fold
-  nnoremap <space> za
-  " Replace using gs
-  nnoremap gs :%s/
-  xnoremap gs :s/
-  " Quick pane switching
-  nnoremap <C-h> <C-w>h
-  nnoremap <C-j> <C-w>j
-  nnoremap <C-k> <C-w>k
-  nnoremap <C-l> <C-w>l
+" Custom leader keys
+let mapleader = ";"
+let maplocalleader = ","
+
+" Use space bar to fold
+nnoremap <space> za
+
+" Replace using gs
+nnoremap gs :%s/
+xnoremap gs :s/
+
+" Nerdtree
+nnoremap <Leader>n :NERDTreeToggle<CR>
+let NERDTreeQuitOnOpen=3
+let NERDTreeShowBookmarks=1
+
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
