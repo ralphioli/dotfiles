@@ -19,6 +19,8 @@ Plug 'SirVer/ultisnips'
 Plug 'preservim/nerdtree'
 Plug 'joshdick/onedark.vim'
 Plug 'Raimondi/delimitMate'
+Plug 'itchyny/lightline.vim'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Theme settings
@@ -28,6 +30,10 @@ if exists('+termguicolors')
   set termguicolors
 endif
 colorscheme onedark
+
+let g:lightline = {'colorscheme': 'onedark'}
+set laststatus=2
+set noshowmode
 
 " Custom leader keys
 let mapleader = ";"
@@ -76,8 +82,11 @@ set shiftwidth=2
 set autoindent
 filetype plugin indent on
 
+" Mouse options
+set ttymouse=xterm2
+set mouse=a
+
 " Misc settings
 set title
-set mouse=a
 set relativenumber " Use relative line numbers
 set number         " Show current line number
