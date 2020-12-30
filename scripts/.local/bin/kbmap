@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Turn caps lock into a super cool combined ctrl+esc
+setxkbmap -option ctrl:nocaps
+killall xcape 2>/dev/null ; xcape -e '#66=Escape'
