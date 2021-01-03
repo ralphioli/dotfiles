@@ -17,21 +17,21 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'SirVer/ultisnips'
 Plug 'preservim/nerdtree'
-Plug 'joshdick/onedark.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'itchyny/lightline.vim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'chriskempson/base16-vim'
+Plug 'daviesjamie/vim-base16-lightline'
 call plug#end()
 
-" Theme settings
+" Theming
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-colorscheme onedark
-
-let g:lightline = {'colorscheme': 'onedark'}
+colorscheme base16-material
+let g:lightline = {'colorscheme': 'base16'}
 set laststatus=2
 set noshowmode
 
@@ -50,7 +50,6 @@ xnoremap gs :s/
 nnoremap <Leader>n :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen=3
 let NERDTreeShowBookmarks=1
-
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"

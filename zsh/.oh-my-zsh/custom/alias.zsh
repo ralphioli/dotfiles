@@ -10,7 +10,10 @@ alias free='free -h'
 # Git root
 alias gr='cd ./$(git rev-parse --show-cdup)'
 
-# Misc
+# Vim
 alias v='vim'
+alias vimrc='vim ~/.vimrc'
+
+# Misc
 alias yt='youtube-dl'
 alias grip='grip -b'
