@@ -1,5 +1,10 @@
 [options]
 font = Ubuntu Mono 16px
+mouse_autohide = true
+urgent_on_bell = false
+scrollback_lines = -1
+scroll_on_keystroke = true
+scroll_on_output = false
 
 [colors]
 # Base16 Material
