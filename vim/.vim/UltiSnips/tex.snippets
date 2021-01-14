@@ -54,6 +54,19 @@ snippet enum "Enumerate" b
 \end{enumerate}
 endsnippet
 
+post_expand "vim.eval('feedkeys(\"\<C-f>\")')"
+snippet - "Item" b
+\item $0
+endsnippet
+
+snippet bf "Bold text"
+\textbf{$1}$0
+endsnippet
+
+snippet it "Italic text"
+\textit{$1}$0
+endsnippet
+
 context "not math()"
 snippet >> "textrightarrow" Aw
 \textrightarrow{} $0
@@ -84,7 +97,7 @@ endsnippet
 context "not math()"
 snippet mm "Inline math" Aw
 $${1}$`!p
-if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ', ':']:
   snip.rv = ' '
 else:
   snip.rv = ''
@@ -107,7 +120,7 @@ endsnippet
 
 context "math()"
 snippet ^^ "superscript" iA
-_{$1}$0
+^{$1}$0
 endsnippet
 
 context "math()"
@@ -130,6 +143,12 @@ snippet <> "leftrightarrow" iA
 \leftrightarrow $0
 endsnippet
 
+priority 1
+context "math()"
+snippet |>> "mapsto" iA
+\mapsto $0
+endsnippet
+
 context "math()"
 snippet /= "not equal" iA
 \neq $0
@@ -143,5 +162,15 @@ endsnippet
 context "math()"
 snippet <= "less or equal" iA
 \leq $0
+endsnippet
+
+context "math()"
+snippet prm "prime" iA
+^\prime
+endsnippet
+
+context "math()"
+snippet set "Set" i
+\\{$1\\}$0
 endsnippet
 

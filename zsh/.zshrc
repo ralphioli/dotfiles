@@ -56,7 +56,7 @@ ZSH_THEME="simple"
 plugins=(
   git 
   tmux 
-  sudo
+  tmuxinator 
   zsh_reload
   command-not-found
  )
@@ -79,6 +79,12 @@ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

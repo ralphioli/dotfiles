@@ -30,7 +30,10 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-colorscheme base16-material
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 let g:lightline = {'colorscheme': 'base16'}
 set laststatus=2
 set noshowmode

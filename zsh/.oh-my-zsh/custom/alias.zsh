@@ -17,3 +17,4 @@ alias vimrc='vim ~/.vimrc'
 # Misc
 alias yt='youtube-dl'
 alias grip='grip -b'
+alias tx='tmuxinator'
