@@ -1,6 +1,5 @@
 # Better defaults
 alias md='mkdir -p'
-alias rm='rm -rf'
 
 # -h for human-readable sizes
 alias df='df -h'
