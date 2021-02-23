@@ -1,8 +1,11 @@
+# Edit this file, and some others as well
+alias vialias='vim ~/.oh-my-zsh/custom/alias.zsh'
+alias vimrc='vim ~/.vimrc'
+alias zshrc='vim ~/.zshrc'
+
 # Better defaults
 alias md='mkdir -p'
-
-# -h for human-readable sizes
-alias df='df -h'
+alias df='df -h' # -h for human-readable sizes
 alias du='du -h'
 
 # System stats
@@ -14,7 +17,6 @@ alias gr='cd ./$(git rev-parse --show-cdup)'
 
 # Vim
 alias v='vim'
-alias vimrc='vim ~/.vimrc'
 
 # Misc
 alias yt='youtube-dl'
