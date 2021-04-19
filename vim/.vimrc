@@ -49,6 +49,9 @@ nnoremap <space> za
 nnoremap gs :%s/
 xnoremap gs :s/
 
+" Copy to clipboard with Ctrl+C
+xnoremap <C-c> :w !xclip -i -sel c<CR><CR>
+
 " Nerdtree
 nnoremap <Leader>n :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen=3
