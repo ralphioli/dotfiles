@@ -72,6 +72,9 @@ snippet >> "textrightarrow" Aw
 \textrightarrow{} $0
 endsnippet
 
+snippet \\ "backslash" iA
+\bs $0
+endsnippet
 
 # Code listing
 
@@ -129,6 +132,11 @@ snippet || "mid" iA
 endsnippet
 
 context "math()"
+snippet |- "vdash" iA
+\vdash $0
+endsnippet
+
+context "math()"
 snippet >> "rightarrow" iA
 \rightarrow $0
 endsnippet
@@ -165,12 +173,39 @@ snippet <= "less or equal" iA
 endsnippet
 
 context "math()"
+snippet ** "product" iA
+\cdot $0
+endsnippet
+
+context "math()"
+snippet // "fraction" iA
+\frac{$1}{$2}$0
+endsnippet
+
+context "math()"
 snippet prm "prime" iA
-^\prime
+^\prime $0
+endsnippet
+
+context "math()"
+snippet box "box" iA
+\gbox $0
+endsnippet
+
+context "math()"
+snippet dia "diamond" iA
+\fdia $0
 endsnippet
 
 context "math()"
 snippet set "Set" i
 \\{$1\\}$0
+endsnippet
+
+context "math()"
+snippet infer "infer"
+\infer[$1]{$2}{
+	$3
+}$0
 endsnippet
 
