@@ -5,7 +5,7 @@ def comma(s):
 	return ", "
 endglobal
 
-snippet "def " "Method definition" rbA
+snippet "^def " "Method definition" rbA
 def $1($2):
 	${3:pass}
 
@@ -13,7 +13,7 @@ $0
 endsnippet
 
 priority 10
-snippet "idef " "Instance method definition" rbA
+snippet "^idef " "Instance method definition" rbA
 def $1(self`!p snip.rv = comma(t[2])`$2):
 	${3:pass}
 
@@ -21,7 +21,7 @@ $0
 endsnippet
 
 priority 10
-snippet "cdef " "Class method definition" rbA
+snippet "^cdef " "Class method definition" rbA
 @classmethod
 def $1(cls`!p snip.rv = comma(t[2])`$2):
 	${3:pass}
@@ -30,7 +30,7 @@ $0
 endsnippet
 
 priority 10
-snippet "sdef " "Static method definition" rbA
+snippet "^sdef " "Static method definition" rbA
 @staticmethod
 def $1($2):
 	${3:pass}
@@ -38,7 +38,13 @@ def $1($2):
 $0
 endsnippet
 
-snippet "(class|cls) " "Class" rbA
+snippet "^d(ata)?(class|cls) " "dataclass" rbA
+@dataclass
+class $1($2):
+	${3:pass}
+endsnippet
+
+snippet "^(class|cls) " "Class" rbA
 class $1($2):
 	def __init__(self`!p snip.rv = comma(t[3])`$3): `!p 
 snip >> 2
