@@ -95,3 +95,4 @@ set mouse=a
 set title
 set relativenumber " Use relative line numbers
 set number         " Show current line number
+hi Normal guibg=NONE
