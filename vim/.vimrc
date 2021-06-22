@@ -9,19 +9,33 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Load plugins
+""" PLUGINS
 call plug#begin('~/.vim/plugged')
-Plug 'lervag/vimtex'
-Plug 'tomtom/tcomment_vim'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'SirVer/ultisnips'
-Plug 'preservim/nerdtree'
-Plug 'Raimondi/delimitMate'
-Plug 'itchyny/lightline.vim'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'chriskempson/base16-vim'
-Plug 'daviesjamie/vim-base16-lightline'
+
+  " Snippets
+  Plug 'SirVer/ultisnips'
+
+  " Language plugins
+  Plug 'lervag/vimtex'
+  Plug 'Vimjas/vim-python-pep8-indent'
+  Plug 'neovimhaskell/haskell-vim'
+
+  " Code writing helpers
+  Plug 'tomtom/tcomment_vim'
+  Plug 'Raimondi/delimitMate'
+
+  " Interface elements
+  Plug 'preservim/nerdtree'
+  Plug 'itchyny/lightline.vim'
+
+  " Theming plugins
+  Plug 'chriskempson/base16-vim'
+  Plug 'daviesjamie/vim-base16-lightline'
+
+  " Misc
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'reedes/vim-pencil'
+
 call plug#end()
 
 " Theming
@@ -44,7 +58,7 @@ let maplocalleader = ","
 
 " Use space bar to fold
 nnoremap <space> za
-
+ 
 " Replace using gs
 nnoremap gs :%s/
 xnoremap gs :s/
@@ -63,17 +77,41 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 let g:UltiSnipsEditSplit="context"
 
+" Pencil plugin
+let g:pencil#wrapModeDefault = 'soft'
+let g:pencil#conceallevel = 0
+
 " Python
 au BufNewFile,BufRead *.py
       \ set foldmethod=indent |
       \ set foldlevel=99
+
+" LaTeX word count function
+function LatexWordCount()
+  let f = expand("%")
+  let cmd = "detex " . f . " | wc -w | tr -d '\n'"
+  return system(cmd) . " words"
+endfunction
+
+" .txt word count
+function TxtWordCount()
+  let f = expand("%")
+  let cmd = "cat " . f . " | wc -w | tr -d '\n'"
+  return system(cmd) . " words"
+endfunction
 
 " LaTeX
 let g:vimtex_fold_enabled=1
 au BufNewFile *.tex 0r ~/.vim/templates/skeleton.tex
 au BufNewFile,BufRead *.tex
       \ set foldlevel=99 |
-      \ command C echo system("detex " . expand("%") . " | wc -w | tr -d [:space:]") . " words"
+      \ call pencil#init() |
+      \ nnoremap <localleader>w :echo LatexWordCount()<CR>
+
+" .txt
+autocmd BufNewFile,BufRead *.txt
+      \ call pencil#init() |
+      \ nnoremap <localleader>w :echo TxtWordCount()<CR>
 
 " Misc syntax highlighting
 autocmd BufNewFile,BufRead *.njk set syntax=html

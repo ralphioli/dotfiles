@@ -1,0 +1,14 @@
+#!/bin/sh
+
+attachOrStart() { tmux attach -t $1 || tmux new -s $1; }
+
+if [[ $1 == "" ]]; then
+  orphan=$(tmux ls -f '#{==:#{session_attached},0}' -F '#{session_name}' | head -1)
+  if [[ $orphan == "" ]]; then
+    attachOrStart base
+  else
+    tmux attach -t $orphan
+  fi
+else
+  attachOrStart $1
+fi

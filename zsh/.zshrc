@@ -1,87 +1,69 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="/home/ralph/.oh-my-zsh"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-ZSH_THEME="simple"
-
-plugins=(
-  git 
-  tmux 
-  tmuxinator 
-  zsh_reload
-  command-not-found
- )
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='vim'
-fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+autoload -U colors && colors
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%1~%{$fg[red]%}]$%{$reset_color%}%b "
+
+# Auto-start tmux
+if [[ "$TMUX" == "" ]]; then
+  if [[ "$(pwd)" == "$HOME" ]]; then
+    open-tmux
+  else
+    open-tmux $(basename $(pwd) | sed 's/\./_/g')
+  fi
+fi
+
+# Save history
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh_history
+
+# Set default editor to vim
+export EDITOR='vim'
+
+# Edit file/open output in editor with ctrl-e
+zle-edit () {
+  if [[ $LBUFFER == "" ]]; then                           # Ctrl-e on empty buffer types "vim "
+    LBUFFER="$EDITOR "
+  elif [[ $LBUFFER == "$EDITOR " ]]; then                 # Double ctrl-e opens vim
+    zle -w accept-line
+  elif [[ -f $(echo $LBUFFER | awk '{$1=$1};1') ]]; then  # Ctrl-e with file on buffer opens file in vim
+    LBUFFER="$EDITOR $LBUFFER"
+    zle -w accept-line
+  else                                                    # Else, pipe command output to vim
+    LBUFFER="$LBUFFER | $EDITOR -"
+    zle -w accept-line
+  fi
+}
+zle -N zle-edit
+bindkey '^e' zle-edit
+
+# Enable vi mode
+bindkey -v
+export KEYTIMEOUT=1
+bindkey -v '^?' backward-delete-char # Fix backspace
+
+# Basic auto/tab complete:
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+# vi keys in tab complete menu
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# autocd
+setopt autocd
+
+# source aliases
+[ -f "$HOME/.config/zsh/alias.sh" ] && source "$HOME/.config/zsh/alias.sh"
+
+# Load zsh-syntax-highlighting; should be last.
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
