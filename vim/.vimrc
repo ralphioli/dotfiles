@@ -15,6 +15,9 @@ call plug#begin('~/.vim/plugged')
   " Snippets
   Plug 'SirVer/ultisnips'
 
+  " Autocomplete
+  Plug 'ycm-core/YouCompleteMe'
+
   " Language plugins
   Plug 'lervag/vimtex'
   Plug 'Vimjas/vim-python-pep8-indent'
@@ -24,31 +27,22 @@ call plug#begin('~/.vim/plugged')
   Plug 'tomtom/tcomment_vim'
   Plug 'Raimondi/delimitMate'
 
-  " Interface elements
-  Plug 'preservim/nerdtree'
+  " Theming 
+  Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'itchyny/lightline.vim'
 
-  " Theming plugins
-  Plug 'chriskempson/base16-vim'
-  Plug 'daviesjamie/vim-base16-lightline'
-
   " Misc
-  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'preservim/nerdtree'
   Plug 'reedes/vim-pencil'
+  Plug 'neomake/neomake'
+  Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 
 " Theming
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
-let g:lightline = {'colorscheme': 'base16'}
+set termguicolors
+colorscheme dracula
+let g:lightline = {'colorscheme': 'dracula'}
 set laststatus=2
 set noshowmode
 
@@ -66,10 +60,17 @@ xnoremap gs :s/
 " Copy to clipboard with Ctrl+C
 xnoremap <C-c> :w !xclip -i -sel c<CR><CR>
 
+" Floaterm
+let g:floaterm_keymap_toggle = '<F1>'
+
 " Nerdtree
 nnoremap <Leader>n :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen=3
 let NERDTreeShowBookmarks=1
+
+" YouCompleteMe
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -93,25 +94,36 @@ function LatexWordCount()
   return system(cmd) . " words"
 endfunction
 
-" .txt word count
+" Plaintext word count
 function TxtWordCount()
   let f = expand("%")
-  let cmd = "cat " . f . " | wc -w | tr -d '\n'"
+  let cmd = "wc -w < " . f . "| tr -d '\n'"
   return system(cmd) . " words"
 endfunction
 
 " LaTeX
 let g:vimtex_fold_enabled=1
+let g:vimtex_view_general_viewer = 'zathura'
+let g:vimtex_view_method = 'zathura'
 au BufNewFile *.tex 0r ~/.vim/templates/skeleton.tex
 au BufNewFile,BufRead *.tex
       \ set foldlevel=99 |
       \ call pencil#init() |
       \ nnoremap <localleader>w :echo LatexWordCount()<CR>
 
+if !exists('g:ycm_semantic_triggers')
+  let g:ycm_semantic_triggers = {}
+endif
+au VimEnter *.tex let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
+
 " .txt
 autocmd BufNewFile,BufRead *.txt
       \ call pencil#init() |
       \ nnoremap <localleader>w :echo TxtWordCount()<CR>
+
+" Shell scripts
+autocmd BufNewFile,BufRead *.sh
+    \ call neomake#configure#automake('nrw')
 
 " Misc syntax highlighting
 autocmd BufNewFile,BufRead *.njk set syntax=html
@@ -133,4 +145,3 @@ set mouse=a
 set title
 set relativenumber " Use relative line numbers
 set number         " Show current line number
-hi Normal guibg=NONE

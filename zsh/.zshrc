@@ -1,45 +1,43 @@
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
-
+# Theming
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%1~%{$fg[red]%}]$%{$reset_color%}%b "
 
 # Auto-start tmux
-if [[ "$TMUX" == "" ]]; then
-  if [[ "$(pwd)" == "$HOME" ]]; then
-    open-tmux
-  else
-    open-tmux $(basename $(pwd) | sed 's/\./_/g')
-  fi
-fi
+# if [[ "$TMUX" == "" ]]; then
+#   if [[ "$(pwd)" == "$HOME" ]]; then
+#     open-tmux
+#   else
+#     open-tmux $(basename $(pwd) | sed 's/\./_/g')
+#   fi
+# fi
 
 # Save history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE=~/.cache/zsh_history
 
 # Set default editor to vim
 export EDITOR='vim'
 
-# Edit file/open output in editor with ctrl-e
+# Ctrl-E: open stdout in Editor (vim)
 zle-edit () {
-  if [[ $LBUFFER == "" ]]; then                           # Ctrl-e on empty buffer types "vim "
-    LBUFFER="$EDITOR "
-  elif [[ $LBUFFER == "$EDITOR " ]]; then                 # Double ctrl-e opens vim
-    zle -w accept-line
-  elif [[ -f $(echo $LBUFFER | awk '{$1=$1};1') ]]; then  # Ctrl-e with file on buffer opens file in vim
-    LBUFFER="$EDITOR $LBUFFER"
-    zle -w accept-line
-  else                                                    # Else, pipe command output to vim
+  if [ "$LBUFFER" != "" ]; then
     LBUFFER="$LBUFFER | $EDITOR -"
     zle -w accept-line
   fi
 }
 zle -N zle-edit
 bindkey '^e' zle-edit
+
+# Ctrl-R: Read output (less)
+zle-read () {
+  if [ "$LBUFFER" != "" ]; then
+    LBUFFER="$LBUFFER | less"
+    zle -w accept-line
+  fi
+}
+zle -N zle-read
+bindkey '^r' zle-read
 
 # Enable vi mode
 bindkey -v
@@ -62,8 +60,9 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 # autocd
 setopt autocd
 
-# source aliases
-[ -f "$HOME/.config/zsh/alias.sh" ] && source "$HOME/.config/zsh/alias.sh"
+# source aliases and functions
+[ -f "$HOME/.config/shell/aliases.sh" ] && source "$HOME/.config/shell/aliases.sh"
+[ -f "$HOME/.config/shell/functions.sh" ] && source "$HOME/.config/shell/functions.sh"
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
