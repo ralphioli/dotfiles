@@ -16,22 +16,20 @@ call plug#begin('~/.vim/plugged')
   Plug 'SirVer/ultisnips'
 
   " Autocomplete
-  Plug 'ycm-core/YouCompleteMe'
+  Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
   " Language plugins
   Plug 'lervag/vimtex'
   Plug 'Vimjas/vim-python-pep8-indent'
   Plug 'neovimhaskell/haskell-vim'
 
-  " Code writing helpers
-  Plug 'tomtom/tcomment_vim'
-  Plug 'Raimondi/delimitMate'
-
   " Theming 
   Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'itchyny/lightline.vim'
 
   " Misc
+  Plug 'tomtom/tcomment_vim'
+  Plug 'Raimondi/delimitMate'
   Plug 'preservim/nerdtree'
   Plug 'reedes/vim-pencil'
   Plug 'neomake/neomake'
